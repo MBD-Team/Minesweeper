@@ -15,7 +15,7 @@ function generateField() {
       const field = {
         isBomb: false,
         isFlag: false,
-        isOpen: false,
+        isOpen: true,
       };
       const rowX = field;
       rowY.push(rowX);
@@ -27,7 +27,8 @@ function generateField() {
 
 function generateBomb() {
   for (let i = 0; i < width; i++) {
-    gameMap[i][Math.round(Math.random() * (height - 0.5))].isBomb = true;
+    gameMap[i][Math.round(Math.random() * (height - 1))].isBomb = true;
+    gameMap[i][Math.round(Math.random() * (height - 1))].isBomb = true;
   }
   gameMap[Math.floor(width / 2)][Math.floor(height / 2)].isBomb = false;
 }
