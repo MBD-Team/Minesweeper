@@ -37,7 +37,6 @@ function countBombs(y, x) {
   let numberOfBombs = 0;
   if (gameMap[y + 1]?.[x]?.isBomb === true) {
     numberOfBombs++;
-    console.log('ne');
   }
   if (gameMap[y - 1]?.[x]?.isBomb === true) {
     numberOfBombs++;
@@ -124,6 +123,10 @@ function placeFlag(yIndex, xIndex) {
 function lost(yIndex, xIndex) {
   if (gameMap[yIndex][xIndex].isBomb === true) {
     game();
-    // const restart = document.createElement('button');
+    const dialog = document.querySelector('dialog');
+    /** @ts-expect-error @type HTMLDialogElement */
+    dialog.showModal();
   }
 }
+
+function win() {}
