@@ -1,6 +1,6 @@
 let gameMap = [];
-const width = 15;
-const height = 9;
+const width = 21;
+const height = 11;
 //------------------------
 function game() {
   gameMap = [];
@@ -8,7 +8,6 @@ function game() {
   generateBomb();
   render();
 }
-game();
 function generateField() {
   for (let i = 0; i < width; i++) {
     const rowY = [];
@@ -73,7 +72,7 @@ function render() {
     for (let x = 0; x < width; x++) {
       const tile = document.createElement('div');
       tile.className = 'tile';
-      tile.onclick = () => tileClick(x, y, tile);
+      tile.onclick = () => tileClick(x, y);
       tile.oncontextmenu = e => {
         e.preventDefault();
         placeFlag(x, y);
@@ -84,6 +83,11 @@ function render() {
           tile.innerHTML = '💣';
         } else {
           tile.innerHTML = `${countBombs(x, y)}`;
+          if (countBombs(x, y) === 0) {
+            setTimeout(() => {
+              checkArea(x, y);
+            }, 200);
+          }
         }
       } else if (gameMap[x][y].isOpen === false) {
         if (gameMap[x][y].isFlag === true) {
@@ -96,7 +100,8 @@ function render() {
   }
 }
 
-function tileClick(yIndex, xIndex, tile) {
+function tileClick(yIndex, xIndex) {
+  console.log(yIndex, xIndex);
   if (gameMap[yIndex][xIndex].isFlag === true) {
     return;
   }
@@ -105,7 +110,6 @@ function tileClick(yIndex, xIndex, tile) {
   } else {
     if (gameMap[yIndex][xIndex].isOpen === false) {
       gameMap[yIndex][xIndex].isOpen = true;
-      tile.setAttribute('style', `background-color: grey;`);
       render();
     }
   }
@@ -129,4 +133,31 @@ function lost(yIndex, xIndex) {
   }
 }
 
-function win() {}
+function checkArea(x, y) {
+  if (gameMap[x + 0]?.[y + 1]?.isOpen === false) {
+    tileClick(x, y + 1);
+  }
+  if (gameMap[x + 0]?.[y - 1]?.isOpen === false) {
+    tileClick(x, y - 1);
+  }
+  if (gameMap[x + 1]?.[y + 1]?.isOpen === false) {
+    tileClick(x + 1, y + 1);
+  }
+  if (gameMap[x + 1]?.[y - 1]?.isOpen === false) {
+    tileClick(x + 1, y - 1);
+  }
+  if (gameMap[x - 1]?.[y + 1]?.isOpen === false) {
+    tileClick(x - 1, y + 1);
+  }
+  if (gameMap[x - 1]?.[y - 1]?.isOpen === false) {
+    tileClick(x - 1, y - 1);
+  }
+  if (gameMap[x - 1]?.[y + 0]?.isOpen === false) {
+    tileClick(x - 1, y);
+  }
+  if (gameMap[x + 1]?.[y + 0]?.isOpen === false) {
+    tileClick(x + 1, y);
+  }
+}
+
+game();
