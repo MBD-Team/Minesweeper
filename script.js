@@ -1,13 +1,15 @@
-const gameMap = [];
+let gameMap = [];
 const mapHeight = 9;
 const mapWidth = 15;
 //------------------------
 function game() {
+  gameMap = [];
   generateField();
   generateBomb();
   showState();
-  console.log(gameMap.map(e => e.map(t => t.test)));
+  render();
 }
+game();
 function generateField() {
   for (let i = 0; i < mapHeight; i++) {
     const rowY = [];
@@ -25,12 +27,14 @@ function generateField() {
     gameMap.push(rowY);
   }
 }
+
 function generateBomb() {
   for (let i = 0; i < mapHeight; i++) {
     gameMap[i][Math.round(Math.random() * (mapWidth - 1))].isBomb = true;
   }
   gameMap[Math.floor(mapHeight / 2)][Math.floor(mapWidth / 2)].isBomb = false;
 }
+
 function showState() {
   for (let i = 0; i < mapHeight; i++) {
     for (let k = 0; k < mapWidth; k++) {
@@ -43,15 +47,22 @@ function showState() {
   }
 }
 //----------------------------
-game();
 
-const gameField = document.querySelector('.field');
-gameField?.setAttribute('style', `grid-template-columns: repeat(${mapWidth},1fr); width: ${50 * mapWidth}px;`);
 function render() {
+  const gameField = document.querySelector('.field');
+  if (gameField !== null) {
+    gameField.innerHTML = '';
+  }
+  gameField?.setAttribute('style', `grid-template-columns: repeat(${mapWidth},1fr); width: ${50 * mapWidth}px;`);
   for (let y = 0; y < mapWidth; y++) {
     for (let x = 0; x < mapHeight; x++) {
       const tile = document.createElement('div');
       tile.className = 'tile';
+      tile.onclick = () => tileClick(x, y, tile);
+      tile.oncontextmenu = e => {
+        e.preventDefault();
+        placeFlag(x, y);
+      };
       gameField?.appendChild(tile);
       if (gameMap[x][y].isOpen === true) {
         if (gameMap[x][y].isBomb === true) {
@@ -70,4 +81,33 @@ function render() {
   }
 }
 
-render();
+function tileClick(yIndex, xIndex, tile) {
+  if (gameMap[yIndex][xIndex].isBomb === true) {
+    lost(yIndex, xIndex);
+  }
+  if (gameMap[yIndex][xIndex].isFlag === true) {
+    return;
+  } else {
+    if (gameMap[yIndex][xIndex].isOpen === false) {
+      gameMap[yIndex][xIndex].isOpen = true;
+      tile.setAttribute('style', `background-color: grey;`);
+      render();
+    }
+  }
+}
+
+function placeFlag(yIndex, xIndex) {
+  if (gameMap[yIndex][xIndex].isFlag === false) {
+    gameMap[yIndex][xIndex].isFlag = true;
+  } else {
+    gameMap[yIndex][xIndex].isFlag = false;
+  }
+  render();
+}
+
+function lost(yIndex, xIndex) {
+  if (gameMap[yIndex][xIndex].isBomb === true) {
+    game();
+    // const restart = document.createElement('button');
+  }
+}
