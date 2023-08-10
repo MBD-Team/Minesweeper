@@ -1,0 +1,14 @@
+isOpen === true !! isFlag === true geht nicht
+
+
+isOpen === true && isBomb === true 
+game over
+
+isOpen === true
+isOpen === false
+isBomb === true
+isBomb === false
+isFlag === true
+isFlag === false
+
+isOpen === true && isFlag === false
