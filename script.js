@@ -79,6 +79,7 @@ function render() {
       };
       gameField?.appendChild(tile);
       if (gameMap[x][y].isOpen === true) {
+        tile.setAttribute('isOpen', 'open');
         if (gameMap[x][y].isBomb === true) {
           tile.innerHTML = '💣';
         } else {
@@ -113,6 +114,7 @@ function tileClick(yIndex, xIndex) {
       render();
     }
   }
+  checkWin();
 }
 
 function placeFlag(yIndex, xIndex) {
@@ -130,6 +132,13 @@ function lost(yIndex, xIndex) {
     const dialog = document.querySelector('dialog');
     /** @ts-expect-error @type HTMLDialogElement */
     dialog.showModal();
+  }
+}
+
+function checkWin() {
+  if (gameMap.every(a => a.every(b => b.isOpen === true || b.isBomb === true))) {
+    alert('YOU WON');
+    game();
   }
 }
 

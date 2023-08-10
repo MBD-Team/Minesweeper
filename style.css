@@ -1,9 +1,13 @@
 :root{
     --white-color:#f0ead2;
---primary-color-:#adc178;
+--primary-color:#adc178;
 --secondary-color-darkened:#7a6455;
 --secondary-color:#a98467;
 --primary-color-lightened:#dbe4b0;
+#a3d14c
+#abd754
+
+#e3c1a0
 }
 body {
     display: flex;
@@ -17,7 +21,7 @@ body {
 
 .field{
     display: grid;
-    background-color: var(--primary-color-);
+    background-color: var(--primary-color);
 }
 .tile:nth-child(even){
     background-color: var(--primary-color-lightened);
@@ -44,6 +48,13 @@ h4{
     box-sizing: border-box;
 }
 
+.tile[isOpen]{
+    background-color: #d5b89a;
+}
+.tile[isOpen]:nth-child(even){
+    background-color: #ffe8d6;
+}
+
 dialog{
     width: 15vh;
     align-items: center;
@@ -59,3 +70,4 @@ button{
 button:hover{
     background-color: #e2dcdc;
 }
+
