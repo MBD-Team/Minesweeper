@@ -1,19 +1,18 @@
 let gameMap = [];
-const mapHeight = 9;
-const mapWidth = 15;
+const width = 15;
+const height = 9;
 //------------------------
 function game() {
   gameMap = [];
   generateField();
   generateBomb();
-  showState();
   render();
 }
 game();
 function generateField() {
-  for (let i = 0; i < mapHeight; i++) {
+  for (let i = 0; i < width; i++) {
     const rowY = [];
-    for (let k = 0; k < mapWidth; k++) {
+    for (let k = 0; k < height; k++) {
       const field = {
         isBomb: false,
         isFlag: false,
@@ -28,48 +27,37 @@ function generateField() {
 }
 
 function generateBomb() {
-  for (let i = 0; i < mapHeight; i++) {
-    gameMap[i][Math.round(Math.random() * (mapWidth - 1))].isBomb = true;
+  for (let i = 0; i < width; i++) {
+    gameMap[i][Math.round(Math.random() * (height - 1))].isBomb = true;
   }
-  gameMap[Math.floor(mapHeight / 2)][Math.floor(mapWidth / 2)].isBomb = false;
+  gameMap[Math.floor(width / 2)][Math.floor(height / 2)].isBomb = false;
 }
 
-function showState() {
-  for (let i = 0; i < mapHeight; i++) {
-    for (let k = 0; k < mapWidth; k++) {
-      if (gameMap[i][k].isBomb === true) {
-        gameMap[i][k].bombCount = 'X'; //TODO: das muss geändert werden
-      } else {
-        gameMap[i][k].bombCount = 0;
-      }
-    }
-  }
-}
-
-function countBombs(X, Y) {
+function countBombs(y, x) {
   let numberOfBombs = 0;
-  if (gameMap[Y + 1]?.[X]?.isBomb === true) {
+  if (gameMap[y + 1]?.[x]?.isBomb === true) {
+    numberOfBombs++;
+    console.log('ne');
+  }
+  if (gameMap[y - 1]?.[x]?.isBomb === true) {
     numberOfBombs++;
   }
-  if (gameMap[Y - 1]?.[X]?.isBomb === true) {
+  if (gameMap[y]?.[x + 1]?.isBomb === true) {
     numberOfBombs++;
   }
-  if (gameMap[Y]?.[X + 1]?.isBomb === true) {
+  if (gameMap[y]?.[x - 1]?.isBomb === true) {
     numberOfBombs++;
   }
-  if (gameMap[Y]?.[X - 1]?.isBomb === true) {
+  if (gameMap[y + 1]?.[x + 1]?.isBomb === true) {
     numberOfBombs++;
   }
-  if (gameMap[Y + 1]?.[X + 1]?.isBomb === true) {
+  if (gameMap[y - 1]?.[x + 1]?.isBomb === true) {
     numberOfBombs++;
   }
-  if (gameMap[Y - 1]?.[X + 1]?.isBomb === true) {
+  if (gameMap[y - 1]?.[x - 1]?.isBomb === true) {
     numberOfBombs++;
   }
-  if (gameMap[Y - 1]?.[X - 1]?.isBomb === true) {
-    numberOfBombs++;
-  }
-  if (gameMap[Y + 1]?.[X - 1]?.isBomb === true) {
+  if (gameMap[y + 1]?.[x - 1]?.isBomb === true) {
     numberOfBombs++;
   }
 
@@ -81,9 +69,9 @@ function render() {
   if (gameField !== null) {
     gameField.innerHTML = '';
   }
-  gameField?.setAttribute('style', `grid-template-columns: repeat(${mapWidth},1fr); width: ${50 * mapWidth}px;`);
-  for (let y = 0; y < mapWidth; y++) {
-    for (let x = 0; x < mapHeight; x++) {
+  gameField?.setAttribute('style', `grid-template-columns: repeat(${width},1fr); width: ${50 * width}px;`);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
       const tile = document.createElement('div');
       tile.className = 'tile';
       tile.onclick = () => tileClick(x, y, tile);
@@ -96,7 +84,7 @@ function render() {
         if (gameMap[x][y].isBomb === true) {
           tile.innerHTML = '💣';
         } else {
-          tile.innerHTML = `${countBombs(4, 7)}`;
+          tile.innerHTML = `${countBombs(x, y)}`;
         }
       } else if (gameMap[x][y].isOpen === false) {
         if (gameMap[x][y].isFlag === true) {
@@ -110,11 +98,11 @@ function render() {
 }
 
 function tileClick(yIndex, xIndex, tile) {
-  if (gameMap[yIndex][xIndex].isBomb === true) {
-    lost(yIndex, xIndex);
-  }
   if (gameMap[yIndex][xIndex].isFlag === true) {
     return;
+  }
+  if (gameMap[yIndex][xIndex].isBomb === true) {
+    lost(yIndex, xIndex);
   } else {
     if (gameMap[yIndex][xIndex].isOpen === false) {
       gameMap[yIndex][xIndex].isOpen = true;
