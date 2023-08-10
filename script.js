@@ -15,7 +15,7 @@ function generateField() {
       const field = {
         isBomb: false,
         isFlag: false,
-        isOpen: true,
+        isOpen: false,
       };
       const rowX = field;
       rowY.push(rowX);
