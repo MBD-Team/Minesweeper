@@ -5,9 +5,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended-type-checked", // for js project use "plugin:@typescript-eslint/recommended"
-    "plugin:@typescript-eslint/strict-type-checked" // same here without type-checked
+    "plugin:@typescript-eslint/recommended", // for js project use "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/strict" // same here without type-checked
   ],
+  // npm i @typescript-eslint/eslint-plugin
   "rules": {
     "@typescript-eslint/no-non-null-assertion": "warn",
     "no-constant-binary-expression": "error",
