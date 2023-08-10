@@ -4,10 +4,6 @@
 --secondary-color-darkened:#7a6455;
 --secondary-color:#a98467;
 --primary-color-lightened:#dbe4b0;
-#a3d14c
-#abd754
-
-#e3c1a0
 }
 body {
     display: flex;
@@ -70,4 +66,3 @@ button{
 button:hover{
     background-color: #e2dcdc;
 }
-
