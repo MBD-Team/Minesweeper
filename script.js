@@ -18,7 +18,6 @@ function generateField() {
         isBomb: false,
         isFlag: false,
         isOpen: false,
-        test: 'O',
       };
       const rowX = field;
       rowY.push(rowX);
@@ -39,14 +38,43 @@ function showState() {
   for (let i = 0; i < mapHeight; i++) {
     for (let k = 0; k < mapWidth; k++) {
       if (gameMap[i][k].isBomb === true) {
-        gameMap[i][k].test = 'X';
+        gameMap[i][k].bombCount = 'X'; //TODO: das muss geändert werden
       } else {
-        gameMap[i][k].test = 'O';
+        gameMap[i][k].bombCount = 0;
       }
     }
   }
 }
-//----------------------------
+
+function countBombs(X, Y) {
+  let numberOfBombs = 0;
+  if (gameMap[Y + 1]?.[X]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y - 1]?.[X]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y]?.[X + 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y]?.[X - 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y + 1]?.[X + 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y - 1]?.[X + 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y - 1]?.[X - 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y + 1]?.[X - 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+
+  return numberOfBombs;
+}
 
 function render() {
   const gameField = document.querySelector('.field');
@@ -68,7 +96,7 @@ function render() {
         if (gameMap[x][y].isBomb === true) {
           tile.innerHTML = '💣';
         } else {
-          tile.innerHTML = '1';
+          tile.innerHTML = `${countBombs(4, 7)}`;
         }
       } else if (gameMap[x][y].isOpen === false) {
         if (gameMap[x][y].isFlag === true) {
