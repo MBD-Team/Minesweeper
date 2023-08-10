@@ -6,17 +6,17 @@ function game() {
   generateField();
   generateBomb();
   showState();
-  console.log(gameMap.map(e => e.map(t => t.test)));
+  countBombs(4, 7);
+  console.log(gameMap.map(e => e.map(t => t.bombCount)));
 }
 function generateField() {
   for (let i = 0; i < mapHeight; i++) {
     const rowY = [];
     for (let k = 0; k < mapWidth; k++) {
       const field = {
-        isBomb: false,
+        isBomb: true,
         isFlag: false,
-        isOpen: false,
-        test: 'O',
+        isOpen: true,
       };
       const rowX = field;
       rowY.push(rowX);
@@ -35,16 +35,47 @@ function showState() {
   for (let i = 0; i < mapHeight; i++) {
     for (let k = 0; k < mapWidth; k++) {
       if (gameMap[i][k].isBomb === true) {
-        gameMap[i][k].test = 'X';
+        gameMap[i][k].bombCount = 'X'; //TODO: das muss geändert werden
       } else {
-        gameMap[i][k].test = 'O';
+        gameMap[i][k].bombCount = 0;
       }
     }
   }
 }
+
+function countBombs(X, Y) {
+  let numberOfBombs = 0;
+  if (gameMap[Y + 1]?.[X]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y - 1]?.[X]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y]?.[X + 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y]?.[X - 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y + 1]?.[X + 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y - 1]?.[X + 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y - 1]?.[X - 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+  if (gameMap[Y + 1]?.[X - 1]?.isBomb === true) {
+    numberOfBombs++;
+  }
+
+  return numberOfBombs;
+}
+
 //----------------------------
 game();
-
+//----------------------------
 const gameField = document.querySelector('.field');
 gameField?.setAttribute('style', `grid-template-columns: repeat(${mapWidth},1fr); width: ${50 * mapWidth}px;`);
 function render() {
@@ -57,7 +88,7 @@ function render() {
         if (gameMap[x][y].isBomb === true) {
           tile.innerHTML = '💣';
         } else {
-          tile.innerHTML = '1';
+          tile.innerHTML = ``;
         }
       } else if (gameMap[x][y].isOpen === false) {
         if (gameMap[x][y].isFlag === true) {
