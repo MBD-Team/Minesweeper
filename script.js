@@ -1,8 +1,10 @@
 let gameMap = [];
-const width = 21;
+let points = 0
+const width = 23;
 const height = 11;
 //------------------------
 function game() {
+  points = 0
   gameMap = [];
   generateField();
   generateBomb();
@@ -64,6 +66,7 @@ function countBombs(y, x) {
 }
 
 function render() {
+  console.log("you got:", points, "points")
   const gameField = document.querySelector('.field');
   if (gameField !== null) {
     gameField.innerHTML = '';
@@ -112,6 +115,7 @@ function tileClick(yIndex, xIndex) {
   } else {
     if (gameMap[yIndex][xIndex].isOpen === false) {
       gameMap[yIndex][xIndex].isOpen = true;
+      points = points + 10
       render();
     }
   }
@@ -128,14 +132,20 @@ function placeFlag(yIndex, xIndex) {
 }
 
 function lost(yIndex, xIndex) {
-  if (gameMap[yIndex][xIndex].isBomb === true) {
-    game();
-    const dialog = document.querySelector('dialog');
-    /** @ts-expect-error @type HTMLDialogElement */
-    dialog.showModal();
+  // for (let i = 0; i < width; i++) {
+  //   for (let k = 0; k < height; k++) {
+  //     tileClick(k, i)
+  //   }
+  // }
+  for (let k = 0; k < height; k++) {
+    if (gameMap[yIndex][xIndex].isBomb === true) {
+      game();
+      const dialog = document.querySelector('dialog');
+      /** @ts-expect-error @type HTMLDialogElement */
+      dialog.showModal();
+    }
   }
 }
-
 function checkWin() {
   if (gameMap.every(a => a.every(b => b.isOpen === true || b.isBomb === true))) {
     alert('YOU WON');
