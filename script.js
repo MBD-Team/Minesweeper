@@ -1,10 +1,8 @@
 let gameMap = [];
-let points = 0;
-const width = 23;
-const height = 11;
+const width = 37;
+const height = 15;
 //------------------------
 function game() {
-  points = 0;
   gameMap = [];
   generateField();
   generateBomb();
@@ -117,7 +115,6 @@ function render() {
 }
 
 function tileClick(yIndex, xIndex) {
-  console.log(yIndex, xIndex);
   if (gameMap[yIndex][xIndex].isFlag === true) {
     return;
   }
