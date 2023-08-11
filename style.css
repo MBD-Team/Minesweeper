@@ -43,6 +43,9 @@ h4{
     border: 1px solid #6c584c;
     box-sizing: border-box;
 }
+.tile[isMiddle]{
+    background-color: #8d9e5f;
+}
 
 .tile[isOpen]{
     background-color: #d5b89a;
@@ -50,7 +53,6 @@ h4{
 .tile[isOpen]:nth-child(even){
     background-color: #ffe8d6;
 }
-
 dialog{
     width: 15vh;
     align-items: center;
@@ -66,3 +68,4 @@ button{
 button:hover{
     background-color: #e2dcdc;
 }
+
