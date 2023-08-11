@@ -43,6 +43,9 @@ h4{
     border: 1px solid #6c584c;
     box-sizing: border-box;
 }
+.tile[isMiddle]{
+    background-color: #8d9e5f;
+}
 
 .tile[isOpen]{
     background-color: #d5b89a;
@@ -50,7 +53,6 @@ h4{
 .tile[isOpen]:nth-child(even){
     background-color: #ffe8d6;
 }
-
 dialog{
     width: 15vh;
     align-items: center;
@@ -67,6 +69,7 @@ button:hover{
     background-color: #e2dcdc;
 }
 
+<<<<<<< HEAD
 .start{
     width: 25vh;
 }
@@ -77,3 +80,5 @@ select{
 .pickSize{
     width: 23vh;
 }
+=======
+>>>>>>> 2cfe88ccfd662070ae21da6451ce45a063ff0cc1

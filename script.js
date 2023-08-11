@@ -1,11 +1,9 @@
 let gameMap = [];
-let points = 0;
 let width = 23;
 let height = 11;
 //------------------------
 function game() {
   checkSize();
-  points = 0;
   gameMap = [];
   generateField();
   generateBomb();
@@ -30,6 +28,7 @@ function generateField() {
 
 function generateBomb() {
   for (let i = 0; i < width; i++) {
+    gameMap[i][Math.round(Math.random() * (height - 1))].isBomb = true;
     gameMap[i][Math.round(Math.random() * (height - 1))].isBomb = true;
     gameMap[i][Math.round(Math.random() * (height - 1))].isBomb = true;
   }
@@ -75,7 +74,6 @@ function countBombs(y, x) {
 }
 
 function render() {
-  console.log('you got:', points, 'points');
   const gameField = document.querySelector('.field');
   if (gameField !== null) {
     gameField.innerHTML = '';
@@ -85,6 +83,9 @@ function render() {
     for (let x = 0; x < width; x++) {
       const tile = document.createElement('div');
       tile.className = 'tile';
+      if (x === Math.floor(width / 2) && y === Math.floor(height / 2)) {
+        tile.setAttribute('isMiddle', 'middle');
+      }
       tile.onclick = () => tileClick(x, y);
       tile.oncontextmenu = e => {
         e.preventDefault();
@@ -115,7 +116,6 @@ function render() {
 }
 
 function tileClick(yIndex, xIndex) {
-  console.log(yIndex, xIndex);
   if (gameMap[yIndex][xIndex].isFlag === true) {
     return;
   }
@@ -124,7 +124,6 @@ function tileClick(yIndex, xIndex) {
   } else {
     if (gameMap[yIndex][xIndex].isOpen === false) {
       gameMap[yIndex][xIndex].isOpen = true;
-      points = points + 10;
       render();
     }
   }
