@@ -1,9 +1,10 @@
 let gameMap = [];
 let points = 0;
-const width = 23;
-const height = 11;
+let width = 23;
+let height = 11;
 //------------------------
 function game() {
+  checkSize();
   points = 0;
   gameMap = [];
   generateField();
@@ -163,6 +164,21 @@ function checkWin() {
   }
 }
 
+function checkSize() {
+  /** @ts-expect-error @type HTMLSelectElement */
+  const gameMapSize = document.querySelector('select');
+  if (gameMapSize.value === 'small') {
+    width = 11;
+    height = 9;
+  } else if (gameMapSize.value === 'medium') {
+    width = 23;
+    height = 11;
+  } else {
+    width = 37;
+    height = 15;
+  }
+}
+
 function checkArea(x, y) {
   if (gameMap[x + 0]?.[y + 1]?.isOpen === false) {
     tileClick(x, y + 1);
@@ -190,4 +206,6 @@ function checkArea(x, y) {
   }
 }
 
-game();
+/** @ts-expect-error @type HTMLDialogElement */
+const options = document.querySelector('.start');
+options.showModal();
