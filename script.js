@@ -1,10 +1,10 @@
 let gameMap = [];
-let points = 0
+let points = 0;
 const width = 23;
 const height = 11;
 //------------------------
 function game() {
-  points = 0
+  points = 0;
   gameMap = [];
   generateField();
   generateBomb();
@@ -33,6 +33,14 @@ function generateBomb() {
     gameMap[i][Math.round(Math.random() * (height - 1))].isBomb = true;
   }
   gameMap[Math.floor(width / 2)][Math.floor(height / 2)].isBomb = false;
+  gameMap[Math.floor(width / 2)][Math.floor(height / 2 - 1)].isBomb = false;
+  gameMap[Math.floor(width / 2)][Math.floor(height / 2 + 1)].isBomb = false;
+  gameMap[Math.floor(width / 2 - 1)][Math.floor(height / 2)].isBomb = false;
+  gameMap[Math.floor(width / 2 - 1)][Math.floor(height / 2 - 1)].isBomb = false;
+  gameMap[Math.floor(width / 2 - 1)][Math.floor(height / 2 + 1)].isBomb = false;
+  gameMap[Math.floor(width / 2 + 1)][Math.floor(height / 2)].isBomb = false;
+  gameMap[Math.floor(width / 2 + 1)][Math.floor(height / 2 - 1)].isBomb = false;
+  gameMap[Math.floor(width / 2 + 1)][Math.floor(height / 2 + 1)].isBomb = false;
 }
 
 function countBombs(y, x) {
@@ -66,7 +74,7 @@ function countBombs(y, x) {
 }
 
 function render() {
-  console.log("you got:", points, "points")
+  console.log('you got:', points, 'points');
   const gameField = document.querySelector('.field');
   if (gameField !== null) {
     gameField.innerHTML = '';
@@ -115,7 +123,7 @@ function tileClick(yIndex, xIndex) {
   } else {
     if (gameMap[yIndex][xIndex].isOpen === false) {
       gameMap[yIndex][xIndex].isOpen = true;
-      points = points + 10
+      points = points + 10;
       render();
     }
   }
@@ -134,7 +142,7 @@ function placeFlag(yIndex, xIndex) {
 function lost(yIndex, xIndex) {
   // for (let i = 0; i < width; i++) {
   //   for (let k = 0; k < height; k++) {
-  //     tileClick(k, i)
+  //     tileClick(k, i);
   //   }
   // }
   for (let k = 0; k < height; k++) {
@@ -148,7 +156,9 @@ function lost(yIndex, xIndex) {
 }
 function checkWin() {
   if (gameMap.every(a => a.every(b => b.isOpen === true || b.isBomb === true))) {
-    alert('YOU WON');
+    const winText = document.querySelector('.winText');
+    /** @ts-expect-error @type HTMLDialogElement */
+    winText.showModal();
     game();
   }
 }
